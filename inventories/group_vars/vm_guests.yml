@@ -1,0 +1,7 @@
+ansible_connection: ssh
+ansible_user: ansible
+
+web_server_mountpoint: /mnt
+web_server_reporoot: files
+web_server_repodeb: deb
+web_server_reporpm: rpm

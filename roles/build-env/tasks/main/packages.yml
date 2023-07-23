@@ -1,0 +1,17 @@
+- name: Install rpm build
+  become: true
+  package:
+    name:
+      - rpm-build
+      - createrepo
+    state: present
+  when: ansible_os_family in ['RedHat', 'Rocky', 'RED']
+
+- name: Install deb build
+  become: true
+  package:
+    name:
+      - build-essential
+      - reprepro
+    state: present
+  when: ansible_os_family in ['Debian']

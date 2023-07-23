@@ -1,0 +1,23 @@
+- name: Vm stop
+  failed_when: false
+  shell: "virsh -c qemu:///system shutdown {{item[0]}}; sleep 15"
+  with_list: "{{var_vm_guests}}"
+
+- name: Vm stopped check
+  shell: "virsh -c qemu:///system list | grep {{item[0]}}.*running"
+  register: result
+  failed_when: result.stdout_lines | length > 0
+  with_list: "{{var_vm_guests}}"
+
+- name: Restore snapshot
+  shell: "qemu-img snapshot -a {{item[1]}} {{item[2]}}"
+  register: result
+  failed_when: result.rc != 0
+  with_list: "{{var_vm_guests}}"
+
+- name: Vm start
+  shell: "virsh -c qemu:///system start {{item[0]}}; sleep 45"
+  register: result
+  failed_when: result.rc != 0
+  with_list: "{{var_vm_guests}}"
+

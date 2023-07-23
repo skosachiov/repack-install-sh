@@ -1,0 +1,11 @@
+# - name: Create ansible user key
+#   block:
+#     - name: Create ansible user key Gen
+#       user:
+#         name: "{{ansible_user}}"
+#         generate_ssh_key: yes
+#         ssh_key_file: .ssh/id_rsa
+#     - name: Create ansible user key Fetch
+#       fetch:
+#         src: .ssh/id_rsa.pub
+#         dest: /tmp/

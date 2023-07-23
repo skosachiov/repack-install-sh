@@ -1,0 +1,5 @@
+- name: Rm tempdir
+  file:
+    path: "{{var_tempdir}}"
+    state: absent
+  become: true

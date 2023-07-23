@@ -1,0 +1,13 @@
+- hosts: vmhost
+  connection: local
+  roles:
+    - role: vm-rollback
+
+- hosts: vm_guests
+  roles:
+    - role: build-env
+    - role: "{{var_rebuild_role}}"
+
+# - hosts: vm_guests
+#   roles:
+#     - role: update-repo

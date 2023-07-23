@@ -1,0 +1,139 @@
+- name: Install sshfs
+  become: true
+  package:
+    name: "{{'sshfs' if ansible_os_family in ['Debian'] else 'fuse-sshfs'}}"
+    state: present
+
+- name: Mount web server folder
+  become: true
+  block:
+    - name: Mount web server folder Check
+      failed_when: false
+      command: mountpoint -q /mnt
+      register: result
+    - name: Mount web server folder Mount
+      shell: "sshfs -o IdentityFile=/home/ansible/.ssh/id_rsa,reconnect,allow_other sshfsuser@{{groups['web_servers'][0]}}:/ /mnt"
+      when: result.rc != 0
+    - name: Mount web server folder List
+      shell: ls -la /mnt
+    - name: Mount web server folder Check
+      command: mountpoint -q /mnt
+      register: mountpoint_return
+
+- name: Create deb repo
+  become: true
+  block:
+    - name: Create deb repo Create conf
+      file:
+        path: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}/conf"
+        state: directory
+    - name: Create deb repo Template
+      template:
+        src: distributions.j2
+        dest: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}/conf/distributions"
+    - name: Create deb repo Create temp
+      file:
+        path: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}/temp"
+        state: directory
+    - name: Create deb repo Find
+      find:
+        paths: "{{var_tempdir}}"
+        patterns: "*.deb"
+        file_type: file
+      register: result
+    - name: Create deb repo Copy
+      copy:
+        remote_src: yes
+        src: "{{item.path}}"
+        dest: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}/temp/"
+      with_items: "{{result.files}}"
+      register: result_deb
+  when: ansible_os_family in ['Debian'] and mountpoint_return.rc == 0
+
+- name: Edit rpmmacros to utilize the key
+  become: true
+  template:
+    src: rpmmacros.j2
+    dest: ~/.rpmmacros
+  when: ansible_os_family in ['RedHat', 'Rocky', 'RED'] and mountpoint_return.rc == 0
+
+- name: Copy gpg home
+  become: true
+  block:
+    - name: Copy gpg home Chmod
+      file:
+        dest: "~/.gnupg"
+        mode: u+w
+        recurse: yes
+    - name: Copy gpg home Copy
+      copy:
+        src: "~/.gnupg"
+        dest: "~/" 
+        directory_mode: yes
+
+- name: Create rpm repo
+  become: true
+  block:
+    - name: Create rpm repo Create root
+      file:
+        path: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_reporpm}}/centos/8/x86_64"
+        state: directory
+    - name: Create rpm repo Find
+      find:
+        paths: "{{var_tempdir}}/"
+        patterns: "*.rpm"
+        file_type: file
+        recurse: yes
+      register: result          
+  # - name: Create rpm repo Sign
+  #   command: "rpm --addsign {{item.path}}"
+  #   with_items: "{{result.files}}"
+    - name: Create rpm repo Copy
+      copy:
+        remote_src: yes
+        src: "{{item.path}}"
+        dest: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_reporpm}}/centos/8/x86_64/"
+      with_items: "{{result.files}}"
+      register: result_rpm
+  when: ansible_os_family in ['RedHat', 'Rocky', 'RED'] and mountpoint_return.rc == 0
+
+- name: Create deb repo Reprepro
+  ignore_errors: true
+  shell: >-
+    reprepro -S main -P optional -b {{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}
+    includedeb buster {{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}/temp/*
+  when: ansible_os_family in ['Debian'] and mountpoint_return.rc == 0 and result_deb.changed
+
+- name: Create rpm repo Createrepo
+  ignore_errors: true
+  shell: >-
+    createrepo {{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_reporpm}}/centos/8/x86_64
+  when: ansible_os_family in ['RedHat', 'Rocky', 'RED'] and mountpoint_return.rc == 0 and result_rpm.changed
+
+- name: Remove gpg home
+  block:
+    - name: Remove gpg home Become mode
+      become: true
+      file:
+        dest: "~/.gnupg"
+        mode: u+w
+        recurse: yes
+    - name: Remove gpg home Become remove
+      become: true
+      file:
+        path: "~/.gnupg"
+        state: absent
+    - name: Remove gpg home No become mode
+      become: false
+      file:
+        dest: "~/.gnupg"
+        mode: u+wr
+        recurse: yes
+    - name: Remove gpg home No become remove
+      become: false
+      file:
+        path: "~/.gnupg"
+        state: absent
+
+
+

@@ -1,0 +1,5 @@
+- name: Create temporary file
+  file:
+    path: "{{var_tempdir}}"
+    state: directory
+  become: true

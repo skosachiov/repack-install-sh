@@ -1,0 +1,144 @@
+- include_tasks: create-tmp.yml
+
+- name: Extract to remote
+  unarchive:
+    src: "{{var_binaries_dir}}/thin.client64_{{version_underscore}}.tar.gz"
+    dest: "{{var_tempdir}}"
+  become: true
+
+- name: Silent install Thin client
+  shell: "{{var_tempdir}}/setup-thin-{{version_dot}}-x86_64.run --mode unattended"
+  become: true
+  register: result
+  failed_when: result.rc != 0
+
+- set_fact:
+    packagename: "1c-enterprise-{{version_dot}}"
+
+- name: Copy to build folder all
+  become: true
+  shell: >-
+    mkdir -p {{var_tempdir}}/{{packagename}}-thin-client/$(dirname {{item}});
+    cp -a {{item}} {{var_tempdir}}/{{packagename}}-thin-client/{{item}}
+  with_items:
+    - /opt/1cv8/x86_64/{{version_dot}}
+
+- name: Copy to build folder pattern
+  become: true
+  shell: >-
+    mkdir -p {{var_tempdir}}/{{packagename}}-thin-client/{{item}};
+    cp -a {{item}}/*{{version_dot_minus}}* {{var_tempdir}}/{{packagename}}-thin-client/{{item}}/
+  with_items:
+    - /usr/share/applications
+    - /usr/share/app-install/icons
+    - /usr/share/pixmaps
+    - /usr/share/icons/hicolor/16x16/apps
+    - /usr/share/icons/hicolor/22x22/apps
+    - /usr/share/icons/hicolor/24x24/apps
+    - /usr/share/icons/hicolor/32x32/apps
+    - /usr/share/icons/hicolor/36x36/apps
+    - /usr/share/icons/hicolor/48x48/apps
+    - /usr/share/icons/hicolor/64x64/apps
+    - /usr/share/icons/hicolor/72x72/apps
+    - /usr/share/icons/hicolor/96x96/apps
+    - /usr/share/icons/hicolor/128x128/apps
+    - /usr/share/icons/hicolor/192x192/apps
+    - /usr/share/icons/hicolor/256x256/apps
+    - /usr/share/icons/hicolor/512x512/apps
+
+- name: Copy control file
+  become: true
+  block:
+    - name: Copy control file Mkdir
+      file:
+        path: "{{var_tempdir}}/{{packagename}}-thin-client/DEBIAN"
+        state: directory
+    - name: Copy control file Mkdir
+      template:
+        src: control.thin-client.j2
+        dest: "{{var_tempdir}}/{{packagename}}-thin-client/DEBIAN/control"
+
+- name: Copy common to build folder all
+  become: true
+  shell: >-
+    mkdir -p {{var_tempdir}}/{{packagename}}-common/$(dirname {{item}});
+    cp -a {{item}} {{var_tempdir}}/{{packagename}}-common/{{item}}
+  with_items:
+    - /opt/1cv8/common
+
+- name: Copy control file deb
+  become: true
+  block:
+    - name: Copy control file Mkdir
+      file:
+        path: "{{var_tempdir}}/{{packagename}}-common/DEBIAN"
+        state: directory
+    - name: Copy control file Mkdir
+      template:
+        src: control.common.j2
+        dest: "{{var_tempdir}}/{{packagename}}-common/DEBIAN/control"
+  when: ansible_os_family in ['Debian']
+
+- name: Build deb
+  become: true
+  shell: >-
+    cd {{var_tempdir}};
+    dpkg-deb --build {{item}}
+  when: ansible_os_family in ['Debian']
+  with_items:
+    - "{{packagename}}-thin-client"
+    - "{{packagename}}-common"
+
+- name: Copy control file rpm
+  become: true
+  block:
+    - name: Copy control file rpm Mkdir
+      file:
+        path: "{{var_tempdir}}/{{item.0}}/{{item.1}}"
+        state: directory
+      with_nested:
+        - ['thin-client', 'common']
+        - ['SPECS', 'SOURCES', 'BUILD']
+    - name: Copy control file rpm Template
+      template:
+        src: spec.{{item}}.j2
+        dest: "{{var_tempdir}}/{{item}}/SPECS/{{packagename}}-{{item}}.spec"
+      with_items:
+        - thin-client
+        - common
+  when: ansible_os_family in ['RedHat', 'Rocky', 'RED']
+
+- name: Build rpm
+  become: true
+  shell: "rpmbuild --define '_topdir {{var_tempdir}}/{{item}}' -bb {{var_tempdir}}/{{item}}/SPECS/{{packagename}}-{{item}}.spec"
+  with_items:
+    - thin-client
+    - common
+  when: ansible_os_family in ['RedHat', 'Rocky', 'RED']
+
+- set_fact:
+    pkg_type: "{{ 'deb' if ansible_os_family in ['Debian'] else 'rpm'}}"
+    pkg_suffix: "{{ '_amd64.deb' if ansible_os_family in ['Debian'] else '.x86_64.rpm'}}"
+
+- name: Rename pkg
+  become: true
+  shell: >-
+    cd {{var_tempdir}};
+    mv {{packagename}}-{{item}}.{{pkg_type}} {{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}
+  when: ansible_os_family in ['Debian']
+  with_items:
+    - thin-client
+    - common
+
+- name: Fetch pkg back
+  become: true
+  fetch:
+    src: "{{var_tempdir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
+    dest: "{{var_binaries_dir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
+    flat: yes
+  with_items:
+    - thin-client
+    - common
+
+- include_tasks: remove-tmp.yml
+
