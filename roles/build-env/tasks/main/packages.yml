@@ -5,7 +5,7 @@
       - rpm-build
       - createrepo
     state: present
-  when: ansible_os_family in ['RedHat', 'Rocky', 'RED']
+  when: ansible_os_family in var_redhat_based_os
 
 - name: Install deb build
   become: true
@@ -14,4 +14,4 @@
       - build-essential
       - reprepro
     state: present
-  when: ansible_os_family in ['Debian']
+  when: ansible_os_family in var_debian_based_os

@@ -16,23 +16,23 @@ AutoReq: no
 %define _missing_doc_files_terminate_build 0
 #dummy
 #dummy
-#BUILDHOST:    0e72d7f61113
-#BUILDTIME:    Sat Aug 27 23:35:22 2022
-#SOURCERPM:    1c-enterprise-{{version_dot}}.src.rpm
+#BUILDHOST:    72cff857c1f1
+#BUILDTIME:    Fri Feb 11 23:15:16 2022
+#SOURCERPM:    1c-enterprise-{{version_dot_minus}}.src.rpm
 
 #RPMVERSION:   4.4.2.3
 
 
 
 #OS:           linux
-#SIZE:           620282562
-#ARCHIVESIZE:           620328188
+#SIZE:           619211078
+#ARCHIVESIZE:           619256704
 #ARCH:         x86_64
 BuildArch:     x86_64
 Name:          1c-enterprise-{{version_dot}}-server
 Version:       {{version_dot_major}}
-Release:       {{version_release}}
-License:       commercial 
+Release:       1522
+License:       commercial
 Group:         Applications/Databases
 Summary:       1C:Enterprise 8.3 server for Linux
 Distribution:  1C:Enterprise 8.3
@@ -46,150 +46,150 @@ Vendor:        1C
 
 
 Prefix:        /opt/1cv8/x86_64/{{version_dot}}
-Provides:      accnt.so()(64bit)  
-Provides:      addin.so()(64bit)  
-Provides:      addncpp.so()(64bit)  
-Provides:      backend.so()(64bit)  
-Provides:      basic.so()(64bit)  
-Provides:      bp.so()(64bit)  
-Provides:      bsl.so()(64bit)  
-Provides:      calc.so()(64bit)  
-Provides:      cas.so()(64bit)  
-Provides:      chart.so()(64bit)  
-Provides:      db2.so()(64bit)  
-Provides:      dbeng8.so()(64bit)  
-Provides:      dbgbase.so()(64bit)  
-Provides:      dbgrc.so()(64bit)  
-Provides:      dbgtgsrv.so()(64bit)  
-Provides:      dbgtgt.so()(64bit)  
-Provides:      dbgwc.so()(64bit)  
-Provides:      dcs.so()(64bit)  
-Provides:      dcscore.so()(64bit)  
-Provides:      dhist.so()(64bit)  
-Provides:      ecscmn.so()(64bit)  
-Provides:      ecscore.so()(64bit)  
-Provides:      edb.so()(64bit)  
-Provides:      entext.so()(64bit)  
-Provides:      enums.so()(64bit)  
-Provides:      ext.so()(64bit)  
-Provides:      extbase.so()(64bit)  
-Provides:      filedb.so()(64bit)  
-Provides:      fmtd.so()(64bit)  
-Provides:      fmtdcmn.so()(64bit)  
-Provides:      frmcore.so()(64bit)  
-Provides:      ftext.so()(64bit)  
-Provides:      grphcs.so()(64bit)  
-Provides:      help.so()(64bit)  
-Provides:      html.so()(64bit)  
-Provides:      httpsrv.so()(64bit)  
-Provides:      ibcli.so()(64bit)  
-Provides:      image.so()(64bit)  
-Provides:      integ.so()(64bit)  
-Provides:      libMagick++-7.Q8.so.4()(64bit)  
-Provides:      libMagickCore-7.Q8.so.7()(64bit)  
-Provides:      libMagickWand-7.Q8.so.7()(64bit)  
-Provides:      libMagickWand-7.Q8.so.7(VERS_7.0)(64bit)  
-Provides:      libcairo-v8.so()(64bit)  
-Provides:      libgsf-v8.so()(64bit)  
-Provides:      liblcms2.so.2()(64bit)  
-Provides:      libnghttp2.so.14()(64bit)  
-Provides:      libpq.so.5()(64bit)  
-Provides:      libunwind.so.8()(64bit)  
-Provides:      lockman.so()(64bit)  
-Provides:      map.so()(64bit)  
-Provides:      mngbase.so()(64bit)  
-Provides:      mngcore.so()(64bit)  
-Provides:      mngsrv.so()(64bit)  
-Provides:      mob.so()(64bit)  
-Provides:      morph.so()(64bit)  
-Provides:      moxel.so()(64bit)  
-Provides:      odata.so()(64bit)  
-Provides:      orcl.so()(64bit)  
-Provides:      pack.so()(64bit)  
-Provides:      plnnr.so()(64bit)  
-Provides:      plnnrcmn.so()(64bit)  
-Provides:      postgrs.so()(64bit)  
-Provides:      rclient.so()(64bit)  
-Provides:      rserver.so()(64bit)  
-Provides:      sas.so()(64bit)  
-Provides:      scheme.so()(64bit)  
-Provides:      test.so()(64bit)  
-Provides:      testbase.so()(64bit)  
-Provides:      txtedt.so()(64bit)  
-Provides:      vrsbase.so()(64bit)  
-Provides:      vrscore.so()(64bit)  
-Provides:      1c-enterprise-{{version_dot}}-server = {{version_dot}}
-Requires:      /bin/bash  
-Requires(pre): /bin/sh  
-Requires(post): /bin/sh  
-Requires(preun): /bin/sh  
-Requires(postun): /bin/sh  
-Requires:      1c-enterprise-{{version_dot}}-common = {{version_dot}}
-Requires:      core83.so()(64bit)  
-Requires:      ld-linux-x86-64.so.2()(64bit)  
-Requires:      ld-linux-x86-64.so.2(GLIBC_2.3)(64bit)  
-Requires:      libMagick++-7.Q8.so.4()(64bit)  
-Requires:      libMagickCore-7.Q8.so.7()(64bit)  
-Requires:      libMagickWand-7.Q8.so.7()(64bit)  
-Requires:      libMagickWand-7.Q8.so.7(VERS_7.0)(64bit)  
-Requires:      libc.so.6()(64bit)  
-Requires:      libc.so.6(GLIBC_2.11)(64bit)  
-Requires:      libc.so.6(GLIBC_2.2.5)(64bit)  
-Requires:      libc.so.6(GLIBC_2.3)(64bit)  
-Requires:      libc.so.6(GLIBC_2.3.2)(64bit)  
-Requires:      libc.so.6(GLIBC_2.3.3)(64bit)  
-Requires:      libc.so.6(GLIBC_2.3.4)(64bit)  
-Requires:      libc.so.6(GLIBC_2.4)(64bit)  
-Requires:      libc.so.6(GLIBC_2.6)(64bit)  
-Requires:      libc.so.6(GLIBC_2.7)(64bit)  
-Requires:      libc.so.6(GLIBC_2.8)(64bit)  
-Requires:      libc.so.6(GLIBC_2.9)(64bit)  
-Requires:      libcrypt.so.1()(64bit)  
-Requires:      libdl.so.2()(64bit)  
-Requires:      libdl.so.2(GLIBC_2.2.5)(64bit)  
-Requires:      libgcc_s.so.1()(64bit)  
-Requires:      libgcc_s.so.1(GCC_3.0)(64bit)  
-Requires:      libgcc_s.so.1(GCC_3.4)(64bit)  
-Requires:      libicudata.so.46()(64bit)  
-Requires:      libicui18n.so.46()(64bit)  
-Requires:      libicuuc.so.46()(64bit)  
-Requires:      liblcms2.so.2()(64bit)  
-Requires:      libm.so.6()(64bit)  
-Requires:      libm.so.6(GLIBC_2.2.5)(64bit)  
-Requires:      libnghttp2.so.14()(64bit)  
-Requires:      libpthread.so.0()(64bit)  
-Requires:      libpthread.so.0(GLIBC_2.2.5)(64bit)  
-Requires:      libpthread.so.0(GLIBC_2.3.2)(64bit)  
-Requires:      libpthread.so.0(GLIBC_2.3.3)(64bit)  
-Requires:      libpthread.so.0(GLIBC_2.3.4)(64bit)  
-Requires:      librt.so.1()(64bit)  
-Requires:      librt.so.1(GLIBC_2.2.5)(64bit)  
-Requires:      libstdc++.so.6()(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.1)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.11)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.2)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.3)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.5)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.7)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.8)(64bit)  
-Requires:      libstdc++.so.6(CXXABI_1.3.9)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.11)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.14)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.15)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.17)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.18)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.19)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.20)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.21)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.22)(64bit)  
-Requires:      libstdc++.so.6(GLIBCXX_3.4.9)(64bit)  
-Requires:      libtcmalloc_minimal.so.4()(64bit)  
-Requires:      nuke83.so()(64bit)  
+Provides:      accnt.so()(64bit)
+Provides:      addin.so()(64bit)
+Provides:      addncpp.so()(64bit)
+Provides:      backend.so()(64bit)
+Provides:      basic.so()(64bit)
+Provides:      bp.so()(64bit)
+Provides:      bsl.so()(64bit)
+Provides:      calc.so()(64bit)
+Provides:      cas.so()(64bit)
+Provides:      chart.so()(64bit)
+Provides:      db2.so()(64bit)
+Provides:      dbeng8.so()(64bit)
+Provides:      dbgbase.so()(64bit)
+Provides:      dbgrc.so()(64bit)
+Provides:      dbgtgsrv.so()(64bit)
+Provides:      dbgtgt.so()(64bit)
+Provides:      dbgwc.so()(64bit)
+Provides:      dcs.so()(64bit)
+Provides:      dcscore.so()(64bit)
+Provides:      dhist.so()(64bit)
+Provides:      ecscmn.so()(64bit)
+Provides:      ecscore.so()(64bit)
+Provides:      edb.so()(64bit)
+Provides:      entext.so()(64bit)
+Provides:      enums.so()(64bit)
+Provides:      ext.so()(64bit)
+Provides:      extbase.so()(64bit)
+Provides:      filedb.so()(64bit)
+Provides:      fmtd.so()(64bit)
+Provides:      fmtdcmn.so()(64bit)
+Provides:      frmcore.so()(64bit)
+Provides:      ftext.so()(64bit)
+Provides:      grphcs.so()(64bit)
+Provides:      help.so()(64bit)
+Provides:      html.so()(64bit)
+Provides:      httpsrv.so()(64bit)
+Provides:      ibcli.so()(64bit)
+Provides:      image.so()(64bit)
+Provides:      integ.so()(64bit)
+Provides:      libMagick++-7.Q8.so.4()(64bit)
+Provides:      libMagickCore-7.Q8.so.7()(64bit)
+Provides:      libMagickWand-7.Q8.so.7()(64bit)
+Provides:      libMagickWand-7.Q8.so.7(VERS_7.0)(64bit)
+Provides:      libcairo-v8.so()(64bit)
+Provides:      libgsf-v8.so()(64bit)
+Provides:      liblcms2.so.2()(64bit)
+Provides:      libnghttp2.so.14()(64bit)
+Provides:      libpq.so.5()(64bit)
+Provides:      libunwind.so.8()(64bit)
+Provides:      lockman.so()(64bit)
+Provides:      map.so()(64bit)
+Provides:      mngbase.so()(64bit)
+Provides:      mngcore.so()(64bit)
+Provides:      mngsrv.so()(64bit)
+Provides:      mob.so()(64bit)
+Provides:      morph.so()(64bit)
+Provides:      moxel.so()(64bit)
+Provides:      odata.so()(64bit)
+Provides:      orcl.so()(64bit)
+Provides:      pack.so()(64bit)
+Provides:      plnnr.so()(64bit)
+Provides:      plnnrcmn.so()(64bit)
+Provides:      postgrs.so()(64bit)
+Provides:      rclient.so()(64bit)
+Provides:      rserver.so()(64bit)
+Provides:      sas.so()(64bit)
+Provides:      scheme.so()(64bit)
+Provides:      test.so()(64bit)
+Provides:      testbase.so()(64bit)
+Provides:      txtedt.so()(64bit)
+Provides:      vrsbase.so()(64bit)
+Provides:      vrscore.so()(64bit)
+Provides:      1c-enterprise-{{version_dot}}-server = {{version_dot_minus}}
+Requires:      /bin/bash
+Requires(pre): /bin/sh
+Requires(post): /bin/sh
+Requires(preun): /bin/sh
+Requires(postun): /bin/sh
+Requires:      1c-enterprise-{{version_dot}}-common = {{version_dot_minus}}
+Requires:      core83.so()(64bit)
+Requires:      ld-linux-x86-64.so.2()(64bit)
+Requires:      ld-linux-x86-64.so.2(GLIBC_2.3)(64bit)
+Requires:      libMagick++-7.Q8.so.4()(64bit)
+Requires:      libMagickCore-7.Q8.so.7()(64bit)
+Requires:      libMagickWand-7.Q8.so.7()(64bit)
+Requires:      libMagickWand-7.Q8.so.7(VERS_7.0)(64bit)
+Requires:      libc.so.6()(64bit)
+Requires:      libc.so.6(GLIBC_2.11)(64bit)
+Requires:      libc.so.6(GLIBC_2.2.5)(64bit)
+Requires:      libc.so.6(GLIBC_2.3)(64bit)
+Requires:      libc.so.6(GLIBC_2.3.2)(64bit)
+Requires:      libc.so.6(GLIBC_2.3.3)(64bit)
+Requires:      libc.so.6(GLIBC_2.3.4)(64bit)
+Requires:      libc.so.6(GLIBC_2.4)(64bit)
+Requires:      libc.so.6(GLIBC_2.6)(64bit)
+Requires:      libc.so.6(GLIBC_2.7)(64bit)
+Requires:      libc.so.6(GLIBC_2.8)(64bit)
+Requires:      libc.so.6(GLIBC_2.9)(64bit)
+Requires:      libcrypt.so.1()(64bit)
+Requires:      libdl.so.2()(64bit)
+Requires:      libdl.so.2(GLIBC_2.2.5)(64bit)
+Requires:      libgcc_s.so.1()(64bit)
+Requires:      libgcc_s.so.1(GCC_3.0)(64bit)
+Requires:      libgcc_s.so.1(GCC_3.4)(64bit)
+Requires:      libicudata.so.46()(64bit)
+Requires:      libicui18n.so.46()(64bit)
+Requires:      libicuuc.so.46()(64bit)
+Requires:      liblcms2.so.2()(64bit)
+Requires:      libm.so.6()(64bit)
+Requires:      libm.so.6(GLIBC_2.2.5)(64bit)
+Requires:      libnghttp2.so.14()(64bit)
+Requires:      libpthread.so.0()(64bit)
+Requires:      libpthread.so.0(GLIBC_2.2.5)(64bit)
+Requires:      libpthread.so.0(GLIBC_2.3.2)(64bit)
+Requires:      libpthread.so.0(GLIBC_2.3.3)(64bit)
+Requires:      libpthread.so.0(GLIBC_2.3.4)(64bit)
+Requires:      librt.so.1()(64bit)
+Requires:      librt.so.1(GLIBC_2.2.5)(64bit)
+Requires:      libstdc++.so.6()(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.1)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.11)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.2)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.3)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.5)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.7)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.8)(64bit)
+Requires:      libstdc++.so.6(CXXABI_1.3.9)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.11)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.14)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.15)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.17)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.18)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.19)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.20)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.21)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.22)(64bit)
+Requires:      libstdc++.so.6(GLIBCXX_3.4.9)(64bit)
+Requires:      libtcmalloc_minimal.so.4()(64bit)
+Requires:      nuke83.so()(64bit)
 #Requires:      rpmlib(CompressedFileNames) <= 3.0.4-1
 #Requires:      rpmlib(PayloadFilesHavePrefix) <= 4.0-1
-Requires:      rtld(GNU_HASH)  
+Requires:      rtld(GNU_HASH)
 
 
 
@@ -205,13 +205,12 @@ Requires:      rtld(GNU_HASH)
 
 %install
 mkdir -p %{buildroot}/
-cp -r ../../1c-enterprise-{{version_dot}}-server/* %buildroot/
+cp -r ../../1c-enterprise-{{version_dot}}-thin-client/* %buildroot/
 
 %clean
 
 %files
 /*
-
 
 
 %pre -p /bin/sh

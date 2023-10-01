@@ -2,13 +2,13 @@
     version_underscore: "{{var_binaries_dir | basename}}"
 - set_fact:
     version_dot: "{{version_underscore | replace('_', '.')}}"
-- set_fact:    
-    version_dot_major: "{{version_dot[0:-5]}}" 
-    version_release: "{{version_dot[-4:]}}"                
-- set_fact:    
+- set_fact:
+    version_dot_major: "{{version_dot[0:-5]}}"
+    version_release: "{{version_dot[-4:]}}"
+- set_fact:
     version_dot_under: "{{version_dot_major + '_' + version_release}}"
     version_dot_minus: "{{version_dot_major + '-' + version_release}}"
 
+- include_tasks: main/build-1c-server.yml
 - include_tasks: main/build-1c-thin.yml
 - include_tasks: main/build-1c-thick.yml
-- include_tasks: main/build-1c-srv.yml
