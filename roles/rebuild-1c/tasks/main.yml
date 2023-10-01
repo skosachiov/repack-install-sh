@@ -10,5 +10,6 @@
     version_dot_minus: "{{version_dot_major + '-' + version_release}}"
 
 - include_tasks: main/build-1c-server.yml
+  when: var_component == "server"
 - include_tasks: main/build-1c-thin.yml
-- include_tasks: main/build-1c-thick.yml
+  when: var_component == "thin-client"

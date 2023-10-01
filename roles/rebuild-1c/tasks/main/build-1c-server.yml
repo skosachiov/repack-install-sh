@@ -77,14 +77,14 @@
       template:
         src: control.common.j2
         dest: "{{var_tempdir}}/{{packagename}}-common/DEBIAN/control"
-  when: ansible_os_family in ['Debian']
+  when: ansible_os_family in var_debian_based_os
 
 - name: Build deb
   become: true
   shell: >-
     cd {{var_tempdir}};
     dpkg-deb --build {{item}}
-  when: ansible_os_family in ['Debian']
+  when: ansible_os_family in var_debian_based_os
   with_items:
     - "{{packagename}}-server"
     - "{{packagename}}-common"
@@ -106,7 +106,7 @@
       with_items:
         - server
         - common
-  when: ansible_os_family in ['RedHat', 'Rocky', 'RED']
+  when: ansible_os_family in var_redhat_based_os
 
 - name: Build rpm
   become: true
@@ -114,18 +114,18 @@
   with_items:
     - server
     - common
-  when: ansible_os_family in ['RedHat', 'Rocky', 'RED']
+  when: ansible_os_family in var_redhat_based_os
 
 - set_fact:
-    pkg_type: "{{ 'deb' if ansible_os_family in ['Debian'] else 'rpm'}}"
-    pkg_suffix: "{{ '_amd64.deb' if ansible_os_family in ['Debian'] else '.x86_64.rpm'}}"
+    pkg_type: "{{ 'deb' if ansible_os_family in var_debian_based_os else 'rpm'}}"
+    pkg_suffix: "{{ '_amd64.deb' if ansible_os_family in var_debian_based_os else '.x86_64.rpm'}}"
 
 - name: Rename pkg
   become: true
   shell: >-
     cd {{var_tempdir}};
     mv {{packagename}}-{{item}}.{{pkg_type}} {{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}
-  when: ansible_os_family in ['Debian']
+  when: ansible_os_family in var_debian_based_os
   with_items:
     - server
     - common

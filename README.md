@@ -23,7 +23,7 @@ ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
 
 ## process single dir
 
-`ansible-playbook rebuild-pkg.yml -i inventories -u ansible -e "var_binaries_dir=/tmp/1c/8_3_21_1484 var_rebuild_role=rebuild-1c"`
+`ansible-playbook rebuild-pkg.yml -i inventories -u ansible -e "var_binaries_dir=/tmp/1c/8_3_21_1484 var_rebuild_role=rebuild-1c var_component=server"`
 
 *in this case, the directory name must match the version of the package*
 

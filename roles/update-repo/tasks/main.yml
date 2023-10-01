@@ -1,7 +1,7 @@
 - name: Install sshfs
   become: true
   package:
-    name: "{{'sshfs' if ansible_os_family in ['Debian'] else 'fuse-sshfs'}}"
+    name: "{{'sshfs' if ansible_os_family in var_debian_based_os else 'fuse-sshfs'}}"
     state: present
 
 - name: Mount web server folder
@@ -48,14 +48,14 @@
         dest: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}/temp/"
       with_items: "{{result.files}}"
       register: result_deb
-  when: ansible_os_family in ['Debian'] and mountpoint_return.rc == 0
+  when: ansible_os_family in var_debian_based_os and mountpoint_return.rc == 0
 
 - name: Edit rpmmacros to utilize the key
   become: true
   template:
     src: rpmmacros.j2
     dest: ~/.rpmmacros
-  when: ansible_os_family in ['RedHat', 'Rocky', 'RED'] and mountpoint_return.rc == 0
+  when: ansible_os_family in var_redhat_based_os and mountpoint_return.rc == 0
 
 - name: Copy gpg home
   become: true
@@ -95,20 +95,20 @@
         dest: "{{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_reporpm}}/centos/8/x86_64/"
       with_items: "{{result.files}}"
       register: result_rpm
-  when: ansible_os_family in ['RedHat', 'Rocky', 'RED'] and mountpoint_return.rc == 0
+  when: ansible_os_family in var_redhat_based_os and mountpoint_return.rc == 0
 
 - name: Create deb repo Reprepro
   ignore_errors: true
   shell: >-
     reprepro -S main -P optional -b {{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}
     includedeb buster {{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_repodeb}}/temp/*
-  when: ansible_os_family in ['Debian'] and mountpoint_return.rc == 0 and result_deb.changed
+  when: ansible_os_family in var_debian_based_os and mountpoint_return.rc == 0 and result_deb.changed
 
 - name: Create rpm repo Createrepo
   ignore_errors: true
   shell: >-
     createrepo {{web_server_mountpoint}}/{{web_server_reporoot}}/{{web_server_reporpm}}/centos/8/x86_64
-  when: ansible_os_family in ['RedHat', 'Rocky', 'RED'] and mountpoint_return.rc == 0 and result_rpm.changed
+  when: ansible_os_family in var_redhat_based_os and mountpoint_return.rc == 0 and result_rpm.changed
 
 - name: Remove gpg home
   block:
