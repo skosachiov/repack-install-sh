@@ -2,12 +2,12 @@
 
 - name: Extract to remote
   unarchive:
-    src: "{{var_binaries_dir}}/client64_{{version_underscore}}.tar.gz"
+    src: "{{var_binaries_dir}}/server64_{{version_underscore}}.tar.gz"
     dest: "{{var_tempdir}}"
   become: true
 
 - name: Silent install client
-  shell: "{{var_tempdir}}/setup-full-{{version_dot}}-x86_64.run --mode unattended"
+  shell: "{{var_tempdir}}/setup-full-{{version_dot}}-x86_64.run --mode unattended --enable-components client_full"
   become: true
   register: result
   failed_when: result.rc != 0
@@ -61,7 +61,6 @@
         - control
         - postinst
         - postrm
-        - preinst
   when: ansible_os_family in var_debian_based_os
 
 - name: Copy common to build folder all
