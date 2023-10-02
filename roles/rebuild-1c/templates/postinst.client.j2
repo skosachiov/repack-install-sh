@@ -1,0 +1,33 @@
+#!/bin/bash -e
+
+# Binaries
+DST_BIN_PREFIX=/opt/1cv8
+DST_BIN_ARCH_PREFIX=$DST_BIN_PREFIX/x86_64
+
+# Arch check
+[ `getconf LONG_BIT` = "64" ] && OS_ARCH="x86_64" || OS_ARCH="i386"
+[ $OS_ARCH = x86_64 ] || exit 0
+
+# "common" directory
+COMMON_DIR=$DST_BIN_PREFIX/common
+mkdir -p "$COMMON_DIR" && chmod 755 "$COMMON_DIR"
+
+function version_greater()  { test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; }
+
+# Copy "1cestart" with deps to "common"
+NEW_VERSION={{var_version_dot}}
+if [ ! -f "$COMMON_DIR/1cestart" ]; then
+    # "1cestart" is not exists
+    copyStarter="yes";
+else
+    # "1cestart" exists
+    INSTALLED_VERSION=`find $DST_BIN_ARCH_PREFIX -type d -name "*.*.*.*" | sort -rV | head -n 1 | awk -F/ '{print $NF}'`
+    if version_greater $NEW_VERSION $INSTALLED_VERSION; then
+        copyStarter="yes";
+    fi
+fi
+if [ "$copyStarter" = "yes" ]; then
+    cp -a $DST_BIN_ARCH_PREFIX/$NEW_VERSION/{1cestart,nuke83.so,uiproxywx.so,core*.so,libwx_gtk3u-3.0.*,libicu*,libstdc++.so.6,libtcmalloc_minimal.so.4*} $COMMON_DIR
+    rm -rf /usr/share/applications/1cestart-*.desktop
+    cp $DST_BIN_ARCH_PREFIX/$NEW_VERSION/1cestart-*.desktop /usr/share/applications
+fi

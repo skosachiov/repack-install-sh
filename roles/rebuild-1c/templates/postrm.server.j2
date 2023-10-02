@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+# Binaries
+DST_BIN_PREFIX=/opt/1cv8
+DST_BIN_ARCH_PREFIX=$DST_BIN_PREFIX/x86_64
+
+CONF_DIR=$DST_BIN_PREFIX/conf
+if [ `find $DST_BIN_PREFIX -type f ! -name "*.*" -a \( -name 1cv8c -o -name "r*" -o -name "ib*" \) 2>/dev/null | wc -l` -eq 0 ]; then
+    rm -f $CONF_DIR/conf.cfg
+    find $CONF_DIR -type d -empty -delete &>/dev/null || :
+fi

@@ -2,11 +2,11 @@
 
 - name: Extract to remote
   unarchive:
-    src: "{{var_binaries_dir}}/server64_{{version_underscore}}.tar.gz"
+    src: "{{var_binaries_dir}}/client64_{{version_underscore}}.tar.gz"
     dest: "{{var_tempdir}}"
   become: true
 
-- name: Silent install Server
+- name: Silent install client
   shell: "{{var_tempdir}}/setup-full-{{version_dot}}-x86_64.run --mode unattended"
   become: true
   register: result
@@ -18,16 +18,16 @@
 - name: Copy to build folder all
   become: true
   shell: >-
-    mkdir -p {{var_tempdir}}/{{packagename}}-server/$(dirname {{item}});
-    cp -a {{item}} {{var_tempdir}}/{{packagename}}-server/{{item}}
+    mkdir -p {{var_tempdir}}/{{packagename}}-client/$(dirname {{item}});
+    cp -a {{item}} {{var_tempdir}}/{{packagename}}-client/{{item}}
   with_items:
     - /opt/1cv8/x86_64/{{version_dot}}
 
 - name: Copy to build folder pattern
   become: true
   shell: >-
-    mkdir -p {{var_tempdir}}/{{packagename}}-server/{{item}};
-    cp -a {{item}}/*{{version_dot_minus}}* {{var_tempdir}}/{{packagename}}-server/{{item}}/
+    mkdir -p {{var_tempdir}}/{{packagename}}-client/{{item}};
+    cp -a {{item}}/*{{version_dot_minus}}* {{var_tempdir}}/{{packagename}}-client/{{item}}/
   with_items:
     - /usr/share/applications
     - /usr/share/app-install/icons
@@ -51,12 +51,12 @@
   block:
     - name: Copy control file Mkdir
       file:
-        path: "{{var_tempdir}}/{{packagename}}-server/DEBIAN"
+        path: "{{var_tempdir}}/{{packagename}}-client/DEBIAN"
         state: directory
     - name: Copy control file Template
       template:
-        src: "{{item}}.server.j2"
-        dest: "{{var_tempdir}}/{{packagename}}-server/DEBIAN/{{item}}"
+        src: "{{item}}.client.j2"
+        dest: "{{var_tempdir}}/{{packagename}}-client/DEBIAN/{{item}}"
       with_items:
         - control
         - postinst
@@ -92,7 +92,7 @@
     dpkg-deb --build {{item}}
   when: ansible_os_family in var_debian_based_os
   with_items:
-    - "{{packagename}}-server"
+    - "{{packagename}}-client"
     - "{{packagename}}-common"
 
 - name: Copy control file rpm
@@ -103,14 +103,14 @@
         path: "{{var_tempdir}}/{{item.0}}/{{item.1}}"
         state: directory
       with_nested:
-        - ['server', 'common']
+        - ['client', 'common']
         - ['SPECS', 'SOURCES', 'BUILD']
     - name: Copy control file rpm Template
       template:
         src: spec.{{item}}.j2
         dest: "{{var_tempdir}}/{{item}}/SPECS/{{packagename}}-{{item}}.spec"
       with_items:
-        - server
+        - client
         - common
   when: ansible_os_family in var_redhat_based_os
 
@@ -118,7 +118,7 @@
   become: true
   shell: "rpmbuild --define '_topdir {{var_tempdir}}/{{item}}' -bb {{var_tempdir}}/{{item}}/SPECS/{{packagename}}-{{item}}.spec"
   with_items:
-    - server
+    - client
     - common
   when: ansible_os_family in var_redhat_based_os
 
@@ -133,7 +133,7 @@
     mv {{packagename}}-{{item}}.{{pkg_type}} {{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}
   when: ansible_os_family in var_debian_based_os
   with_items:
-    - server
+    - client
     - common
 
 - name: Fetch pkg back
@@ -143,7 +143,7 @@
     dest: "{{var_binaries_dir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
     flat: yes
   with_items:
-    - server
+    - client
     - common
 
 - include_tasks: remove-tmp.yml

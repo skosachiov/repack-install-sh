@@ -11,5 +11,7 @@
 
 - include_tasks: main/build-1c-server.yml
   when: var_component == "server"
-- include_tasks: main/build-1c-thin.yml
+- include_tasks: main/build-1c-thin-client.yml
   when: var_component == "thin-client"
+- include_tasks: main/build-1c-client.yml
+  when: var_component == "client"

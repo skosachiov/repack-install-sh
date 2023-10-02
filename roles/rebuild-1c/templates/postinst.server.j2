@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+# Binaries
+DST_BIN_PREFIX=/opt/1cv8
+DST_BIN_ARCH_PREFIX=$DST_BIN_PREFIX/x86_64
+
+CONF_DIR=$DST_BIN_PREFIX/conf
+mkdir -p "$CONF_DIR" && chmod 755 "$CONF_DIR"
+
+CONF_FILE=$CONF_DIR/conf.cfg
+if [ ! -f "$CONF_FILE" ]; then
+    [ -z "$USER" ] && CONF_LOCALE="System" || CONF_LOCALE=`su - $USER -c locale | grep "LANG=" | cut -d"=" -f2 | cut -d"_" -f1 | awk '{ print toupper($0); }'`
+    [ -z "$CONF_LOCALE" ] && CONF_LOCALE="System"
+    [ -f "$CONF_FILE" ] || echo "SystemLanguage=$CONF_LOCALE" > "$CONF_FILE"
+fi
+
