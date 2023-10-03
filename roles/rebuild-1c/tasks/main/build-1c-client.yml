@@ -57,6 +57,7 @@
       template:
         src: "{{item}}.client.j2"
         dest: "{{var_tempdir}}/{{packagename}}-client/DEBIAN/{{item}}"
+        mode: 0755
       with_items:
         - control
         - postinst
