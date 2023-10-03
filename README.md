@@ -29,5 +29,5 @@ ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
 
 ## process dir of dirs
 
-`find /tmp/1c/* -type d -maxdepth 1 -exec ansible-playbook rebuild-pkg.yml -i inventories -u ansible -e "var_binaries_dir={} var_rebuild_role=rebuild-1c" \;`
+`find /tmp/1c/* -type d -maxdepth 1 -exec ansible-playbook rebuild-pkg.yml -i inventories -u ansible -e "var_binaries_dir={} var_rebuild_role=rebuild-1c var_component=client" \;`
 

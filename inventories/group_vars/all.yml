@@ -8,8 +8,7 @@ var_redhat_based_os:
   - RED
 
 var_vm_guests:
-  - ['astra-uefi', 'snapshot-4', '/mnt/third/libvirt/images/astra-uefi.qcow2']
-  # - ['debian10-uefi', 'snapshot-2', '/mnt/second/libvirt/images/debian10-uefi.qcow2']
+  - ['debian10-uefi', 'snapshot-2', '/mnt/second/libvirt/images/debian10-uefi.qcow2']
   # - ['centos9-uefi', 'snapshot-1', '/mnt/second/libvirt/images/centos9-uefi.qcow2']
 
 var_origin_name: example.org
