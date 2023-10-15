@@ -1,4 +1,5 @@
 - hosts: vmhost
+  strategy: free
   connection: local
   roles:
     - role: vm-rollback

@@ -124,8 +124,8 @@
   when: ansible_os_family in var_redhat_based_os
 
 - set_fact:
-    pkg_type: "{{ 'deb' if ansible_os_family in var_debian_based_os else 'rpm'}}"
-    pkg_suffix: "{{ '_amd64.deb' if ansible_os_family in var_debian_based_os else '.x86_64.rpm'}}"
+    pkg_type: "{{'deb' if ansible_os_family in var_debian_based_os else 'rpm'}}"
+    pkg_suffix: "{{'_amd64.deb' if ansible_os_family in var_debian_based_os else '.x86_64.rpm'}}"
 
 - name: Rename pkg
   become: true
@@ -137,12 +137,24 @@
     - server
     - common
 
-- name: Fetch pkg back
+- name: Fetch pkg back deb
   become: true
   fetch:
     src: "{{var_tempdir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
     dest: "{{var_binaries_dir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
     flat: yes
+  when: ansible_os_family in var_debian_based_os
+  with_items:
+    - server
+    - common
+
+- name: Fetch pkg back rpm
+  become: true
+  fetch:
+    src: "{{var_tempdir}}/RPMS/x86_64/{{packagename}}-{{item}}-{{version_dot_minus}}{{pkg_suffix}}"
+    dest: "{{var_binaries_dir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
+    flat: yes
+  when: ansible_os_family in var_redhat_based_os
   with_items:
     - server
     - common
