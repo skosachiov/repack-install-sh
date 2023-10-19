@@ -16,7 +16,7 @@
   with_list: "{{var_vm_guests}}"
 
 - name: Vm start
-  shell: "virsh -c qemu:///system start {{item[0]}}; sleep 45"
+  shell: "virsh -c qemu:///system start {{item[0]}}; sleep 75"
   register: result
   failed_when: result.rc != 0
   with_list: "{{var_vm_guests}}"
