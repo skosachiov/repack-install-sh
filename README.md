@@ -8,6 +8,7 @@ There is quite a lot of software for linux in the "install.sh" format. Developer
 
 - You need to create one or more virtual machine (qcow2 image) to generate rpm/deb. VM guest OS defines resulting package type.
 - The user from under which the ansible-playbook is called must be able to control the `virsh`.
+- apt/dnf install qemu-guest-agent spice-vdagent rsync
 - Create vm ansible user with certificate auth and nopassword sudo.
 - apt install build-essential or dnf groupinstall 'Development Tools'
 - Make snapshot for rollback to "clear state". `qemu-img snapshot -c snapshot-1 debian10-uefi.qcow2`

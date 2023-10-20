@@ -138,10 +138,10 @@
 
 - name: Fetch pkg back
   become: true
-  fetch:
+  synchronize:
     src: "{{var_tempdir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
     dest: "{{var_binaries_dir}}/{{packagename}}-{{item}}_{{version_dot_under}}{{pkg_suffix}}"
-    flat: yes
+    mode: pull
   when: ansible_os_family in var_debian_based_os
   with_items:
     - client
@@ -149,10 +149,10 @@
 
 - name: Fetch pkg back
   become: true
-  fetch:
+  synchronize:
     src: "{{var_tempdir}}/{{item}}/RPMS/x86_64/{{packagename}}-{{item}}-{{version_dot_minus}}{{pkg_suffix}}"
     dest: "{{var_binaries_dir}}/{{packagename}}-{{item}}-{{version_dot_minus}}{{pkg_suffix}}"
-    flat: yes
+    mode: pull
   when: ansible_os_family in var_redhat_based_os
   with_items:
     - client
