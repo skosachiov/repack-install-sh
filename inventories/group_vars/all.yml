@@ -8,9 +8,9 @@ var_redhat_based_os:
   - RED
 
 var_vm_guests:
-  # - ['debian-11-uefi', 'snapshot-1', '/mnt/third/libvirt/images/debian-11-uefi.qcow2']
-  # - ['centos9-uefi', 'snapshot-1', '/mnt/second/libvirt/images/centos9-uefi.qcow2']
-  - ['debian10-uefi', 'snapshot-3', '/mnt/second/libvirt/images/debian10-uefi.qcow2']
+# - ['debian10-uefi', 'snapshot-3', '/mnt/second/libvirt/images/debian10-uefi.qcow2']
+# - ['redos-uefi', 'snapshot-1', '/mnt/second/libvirt/images/redos-uefi.qcow2']
+  - ['debian-11-uefi', 'snapshot-1', '/mnt/third/libvirt/images/debian-11-uefi.qcow2']
   - ['redos-uefi', 'snapshot-1', '/mnt/second/libvirt/images/redos-uefi.qcow2']
 
 
